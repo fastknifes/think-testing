@@ -1,0 +1,38 @@
+{
+    "name": "shuipf/think-testing",
+    "description": "单元测试",
+    "authors": [
+        {
+            "name": "水平凡",
+            "email": "admin@shuipf.com"
+        }
+    ],
+    "type": "library",
+    "license": "Apache-2.0",
+    "require": {
+        "php": ">=7.1.0",
+        "ext-json": "*",
+        "topthink/framework": "^6.0",
+        "phpunit/phpunit": "^7.0",
+        "symfony/dom-crawler": "^2.8.8"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "think\\testing\\": "src"
+        }
+    },
+    "extra": {
+        "think": {
+            "services": [
+                "think\\testing\\Service"
+            ]
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    }
+}
