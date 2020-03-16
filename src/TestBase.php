@@ -10,19 +10,10 @@
 namespace think\testing;
 
 use think\console\Output;
-use think\facade\App;
 use think\facade\Request;
 
 class TestBase extends TestCase
 {
-
-    use RpcClientTrait;
-
-    /**
-     * rpc加载状态
-     * @var bool
-     */
-    protected static $loadRpc = false;
 
     /**
      * 基础路径
@@ -162,11 +153,6 @@ class TestBase extends TestCase
     protected function setUp()
     {
         $this->output = new Output();
-        //rpc客户端准备
-        if (false === self::$loadRpc && file_exists($rpc = App::getBasePath() . 'rpc.php')) {
-            $this->prepareRpcClient();
-            self::$loadRpc = true;
-        }
     }
 
     /**
