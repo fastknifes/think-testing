@@ -127,7 +127,7 @@ trait RpcClientTrait
                 //连接
                 if (!$client->connect($this->clientConfig['host'], $this->clientConfig['port'], $this->clientConfig['timeout'] ?? 5)) {
                     throw new Exception(
-                        sprintf('Rpc连接失败 host=%s port=%d', $host, $port)
+                        sprintf('Rpc连接失败 host=%s port=%d', $this->clientConfig['host'], $this->clientConfig['port'])
                     );
                 }
                 try {
