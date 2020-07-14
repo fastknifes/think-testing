@@ -109,7 +109,7 @@ trait CrawlerTrait
         $port = isset($uriParse['port']) ? ':' . $uriParse['port'] : '';
         $path = isset($uriParse['path']) ? $uriParse['path'] : '';
         //GET参数处理
-        if($method == 'GET' && !empty($uriParse['query'])){
+        if ($method == 'GET' && !empty($uriParse['query'])) {
             parse_str($uriParse['query'] ?? '', $queryArr);
             $parameters = array_merge($queryArr, $parameters);
         }
@@ -125,6 +125,7 @@ trait CrawlerTrait
          * @var \think\Request $request ;
          */
         $request = App::make('request', [], true);
+        App::delete('middleware');
         $request->withServer($server)
             ->setMethod($method)
             ->withGet($method == 'GET' ? $parameters : [])
