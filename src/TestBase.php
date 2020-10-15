@@ -10,16 +10,31 @@
 namespace think\testing;
 
 use think\console\Output;
+use think\facade\App;
 use think\facade\Request;
 
 class TestBase extends TestCase
 {
+
+    use RpcClientTrait;
+
+    /**
+     * rpc加载状态
+     * @var bool
+     */
+    protected static $loadRpc = false;
 
     /**
      * 基础路径
      * @var string
      */
     protected $baseUrl = '';
+
+    /**
+     * 是否手机访问
+     * @var bool
+     */
+    protected $isMobile = false;
 
     /**
      * @var Output
@@ -33,8 +48,19 @@ class TestBase extends TestCase
      */
     protected function pageGet($urlPath, $headers = [])
     {
+        $server = [];
+        //如果是手机模式下
+        if ($this->isMobile) {
+            $server['HTTP_USER_AGENT'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1';
+        } else {
+            $server['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36';
+        }
+        $this->withServerVariables($server);
         $this->get($urlPath, $headers);
-        if (!in_array($this->response->getCode(), [200, 301])) {
+        if (in_array($this->response->getCode(), [301, 302])) {
+            return;
+        }
+        if (!in_array($this->response->getCode(), [200])) {
             $this->output->error("{$urlPath} 状态异常");
             $this->errorCapture();
         }
@@ -56,8 +82,19 @@ class TestBase extends TestCase
      */
     protected function pagePost($urlPath, $data = [], $headers = [])
     {
+        $server = [];
+        //如果是手机模式下
+        if ($this->isMobile) {
+            $server['HTTP_USER_AGENT'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1';
+        } else {
+            $server['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36';
+        }
+        $this->withServerVariables($server);
         $this->post($urlPath, $data, $headers);
-        if (!in_array($this->response->getCode(), [200, 301])) {
+        if (in_array($this->response->getCode(), [301, 302])) {
+            return;
+        }
+        if (!in_array($this->response->getCode(), [200])) {
             $this->errorCapture();
         }
         //断言是否为 Response 对象
@@ -153,6 +190,11 @@ class TestBase extends TestCase
     protected function setUp()
     {
         $this->output = new Output();
+        //rpc客户端准备
+        if (false === self::$loadRpc && file_exists($rpc = App::getBasePath() . 'rpc.php')) {
+            $this->prepareRpcClient();
+            self::$loadRpc = true;
+        }
     }
 
     /**
