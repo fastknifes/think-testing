@@ -1,10 +1,10 @@
 {
-    "name": "shuipf/think-testing",
+    "name": "fastknife/think-testing",
     "description": "单元测试",
     "authors": [
         {
-            "name": "水平凡",
-            "email": "admin@shuipf.com"
+            "name": "fastknife",
+            "email": "2777314125@qq.com"
         }
     ],
     "type": "library",
@@ -12,8 +12,8 @@
     "require": {
         "php": ">=7.1.0",
         "ext-json": "*",
-        "topthink/framework": "^6.0",
-        "phpunit/phpunit": "^7.0",
+        "topthink/framework": "^8.0",
+        "phpunit/phpunit": "^8.0",
         "symfony/dom-crawler": "^2.8.8"
     },
     "require-dev": {},
