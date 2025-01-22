@@ -19,7 +19,7 @@
 ### 用例
 
 #### 配置
-请在项目根目录下创建 tests配置，并创建phpunit.xml,内容如下：
+请在项目根目录下创建 tests目录，并创建phpunit.xml,内容如下：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
